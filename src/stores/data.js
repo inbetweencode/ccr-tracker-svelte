@@ -154,6 +154,7 @@ export const data = derived(
     $corporatePartnershipFilter,
     $crossborderPartnershipsFilter,
   ]) => {
+    //console.log($scaledData);
     return $scaledData.map((d) => {
       return {
         ...d,
@@ -178,3 +179,4 @@ export const data = derived(
   },
   []
 );
+

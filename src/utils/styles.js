@@ -16,6 +16,8 @@ export default {
   gray: '#DBDBDB',
   lightgray: '#F7F7F7',
 
+  countryEnabled: 'rgba(255, 255, 255, 0.15)',
+  countryDisabled: 'rgba(255, 255, 255, 0.075)',
   background: '#FFFFFF',
 
   faintBlue: '#0055962F'

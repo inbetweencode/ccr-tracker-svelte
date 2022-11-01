@@ -3,9 +3,11 @@ import Card from './Card.svelte';
 
 import { spotlightdata } from '../../stores/spotlightdata';
 import { onMount } from 'svelte';
+import { tabledata } from '../../stores/tabledata';
 
 onMount(() => {
 });
+
 </script>
 
 <div class="spotlight-section">

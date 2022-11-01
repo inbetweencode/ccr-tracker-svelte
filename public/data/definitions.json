@@ -75,5 +75,9 @@
         "definition": "No formal CBDC research but ongoing development of digital wallets and new payments infrastructure"
       }
     ]
+  },
+  "taxation": {
+    "name": "Taxation",
+    "title": "Explanation on this field."
   }
 }

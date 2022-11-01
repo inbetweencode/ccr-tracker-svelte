@@ -13,7 +13,7 @@
   $: width = Math.min(300, maxWidth - 2 * padding);
 
   $: x = tooltip.x - width / 2 < padding ? width / 2 + padding : tooltip.x + width / 2 > maxWidth - padding ? maxWidth - padding - width / 2 : tooltip.x;
-  $: y = tooltip.y + 20;
+  $: y = tooltip.y - 40 - height;
 
   $: info = tooltip.info;
 </script>
@@ -52,6 +52,7 @@
         {info.chart_note}
       </div>
     {/if}
+    <div class="arrow"></div>
   </div>
 </div>
 
@@ -67,8 +68,9 @@
     position: relative;
     width: var(--width);
     height: var(--height);
-    background-color: var(--background);
+    /*background-color: #FA00FA;*/
     border: none;
+    /*border-radius: 5px;*/
     transform: translateX(-50%);
   }
 
@@ -78,13 +80,20 @@
     top: 0;
     z-index: 10;
     padding: 1rem;
-    color: var(--darkgray);
+    color: black;
     font-family: var(--primFont);
     opacity: 1.0;
-    border: 1px solid var(--gray);
+    /*border: 1px solid var(--gray);*/
+    border-radius: 5px;
     transform: translateX(-50%);
-    width:100%;
+    width: 100%;
   }
+
+  .content, .arrow:after {
+      background-color: #FAFAFA;
+      box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.35);
+  }
+
 
   .header {
     display: flex;
@@ -123,4 +132,30 @@
     font-size: 0.6rem;
     line-height: 1.5;
   }
+
+  .arrow {
+      /*background: #4BAE4F;*/
+      overflow: hidden;
+      position: absolute;
+      width: 24px;
+      height: 14px;
+      bottom: -14px;
+      left: 50%;
+      transform: translateX(-50%);
+  }
+  .arrow:after {
+      content: "";
+      position: absolute;
+      left: 4px;
+      top: -8px;
+      width: 15px;
+      height: 15px;
+      /*box-shadow: 6px 5px 9px -9px black, 5px 6px 9px -9px black;*/
+      /*box-shadow: none;*/
+      /*background-color: #005596;*/
+      box-shadow: 1.414px 1.414px 5px rgba(0, 0, 0, 0.35);
+      transform: rotate(45deg);
+  }
+
+
 </style>

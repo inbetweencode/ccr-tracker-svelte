@@ -188,7 +188,7 @@
     countryFilter={countryFilter}
     fullStatusRollup={fullStatusRollup}
     statusRollup={statusRollup}
-    totalCountries={$totalCountries}
+    totalCountries={160+$totalCountries}
   />
   <Canvas
     width={$mapWidth}
@@ -200,11 +200,11 @@
     {#each $projectedData as country}
       <Country
         path={country.path}
-        color={$data.find(d => d.name.name === country.name)?.categories[$colorCategory].color}
-        strokeColor={styles.gray}
-        fallbackFillColor={styles.lightgray}
-        fillOpacity={$data.find(d => d.name.name === country.name)?.show ? 1.0 : 0.1}
-        mode={country.status === 'country' ? 'area' : 'stroke'}
+        color={styles.countryEnabled || $data.find(d => d.name.name === country.name)?.categories[$colorCategory].color}
+        strokeColor={ styles.countryDisabled}
+        fallbackFillColor={styles.countryDisabled}
+        fillOpacity={$data.find(d => d.name.name === country.name)?.show ? 1.0 : 0.5}
+        mode={'stroke' || country.status === 'country' ? 'area' : 'stroke'}
       />
     {/each}
   </Canvas>
@@ -214,7 +214,7 @@
     viewBox="0 0 {$mapWidth} {$mapHeight}"
     bind:this={zoomCatcherElem}
   >
-    {#each $dataCountries as country (country.orderId)}
+ <!--   {#each $dataCountries as country (country.orderId)}
         <Centroid
           dataCountry={country}
           radius={centroidRadius}
@@ -228,9 +228,9 @@
           on:touchstart={(e) => handleCentroidClick(e, country.id)}
           on:click={(e) => handleCentroidClick(e, country.id)}
         />
-    {/each}
+    {/each}-->
     
-    {#each $dataClusters as cluster (cluster.id)}
+    <!--{#each $dataClusters as cluster (cluster.id)}
       {#if ($mapTransform.k < $initialTransform.k * clusterZoom)}
         <Centroid
           dataCountry={cluster}
@@ -244,7 +244,7 @@
           on:click={() => handleClusterClick(cluster.centroid, $initialTransform.k * (clusterZoom + 0.1), $mapTransform, $initialTransform, $mapWidth, $mapHeight)}
         />
       {/if}
-    {/each}
+    {/each}-->
 
     
   </svg>

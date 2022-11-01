@@ -8,6 +8,8 @@ export const spotlightdata = derived(
   ([
     $data,
   ]) => {
+    console.log($data);
+
     return $data.filter(
       (d) => d.overview_spotlight !== '' && d.key_developments_spotlight !== ''
     ).map((d) => {

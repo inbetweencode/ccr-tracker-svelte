@@ -18,6 +18,7 @@
   import Modal from './components/Modal/Modal.svelte';
   import Spotlight from './components/Spotlight/Spotlight.svelte'
   import Footer from './components/Footer.svelte';
+  import Table from './components/Table/Table.svelte';
 
   let width = 0;
   let height = 0;
@@ -62,21 +63,23 @@
   <FilterBarTop />
   <!--<FilterBarBottom />-->
   <Map />
+  {#if ($selectedDatum)}
+    <!--<Modal
+      datum={$selectedDatum}
+      on:categoryclick={handleModalCategoryClick}
+      on:close={() => $selectedId = null}
+    />-->
+  {/if}
+  <Footer />
+  <!--<Spotlight />-->
+
   {#if ($tooltip)}
     <Tooltip
       tooltip={$tooltip}
       maxWidth={width}
     />
   {/if}
-  {#if ($selectedDatum)}
-    <Modal
-      datum={$selectedDatum}
-      on:categoryclick={handleModalCategoryClick}
-      on:close={() => $selectedId = null}
-    />
-  {/if}
-  <Footer />
-  <Spotlight />
+  <Table />
 </div>
 
 <style>
