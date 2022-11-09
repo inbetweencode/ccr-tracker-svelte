@@ -3,6 +3,7 @@
   import { countryGroups } from '../../utils/geo';
 
   import Dropdown from '../Dropdown/Dropdown.svelte';
+  import TableSelect from '../TableSelect/TableSelect.svelte';
 
   export let statusFilter;
   export let countryFilter;
@@ -29,7 +30,28 @@
   class="legend"
   on:mousedown|stopPropagation
 >
-  <div class="countries">
+  <TableSelect
+    filter={countryFilter}
+    label={'Country'}
+    fullRollup={[]}
+    rollup={[]}
+    info={'some info text'}
+    showReset
+    showClickHint={`${$isVertical ? 'Tap' : 'Click'} to filter`}
+    context="legend"
+  />
+  <TableSelect
+    filter={statusFilter}
+    label={'Status'}
+    fullRollup={[]}
+    rollup={[]}
+    info={'some info text'}
+    showReset
+    showClickHint={`${$isVertical ? 'Tap' : 'Click'} to filter`}
+    context="legend"
+  />
+
+  <!--<div class="countries">
     <h5 class="total">
       <span>{totalCountries}</span> Countr{totalCountries === 1 ? 'y' : 'ies'} / Currency Union{totalCountries === 1 ? '' : 's'} Tracked
     </h5>
@@ -63,30 +85,28 @@
         </li>
       {/each}
     </ul>
-  </div>
+  </div>-->
 </div>
 
 <style>
   .legend {
     position: absolute;
-    left: 0;
+    /*left: 0;
     top: auto;
-    bottom: 0;
+    bottom: 0;*/
     z-index: 800;
-    width: 100%;
-    margin: 0;
-    padding: 0.5rem 0;
+    width: auto;
+    margin: 2rem 1rem;
+    padding: 0;
     color: var(--darkgray);
     font-family: var(--primFont);
-    font-size: 0.9rem;
-    background-color: var(--background);
-    border: 1px solid var(--gray);
+    font-size: 1rem;
   }
 
   @media (min-width: 600px) and (max-width: 1000px) {
     .legend {
-      top: auto;
-      bottom: 0;
+      /*top: auto;
+      bottom: 0;*/
     }
   }
 
@@ -99,18 +119,16 @@
 
   @media (min-width: 600px) {
     .legend {
-      width: 170px;
-      min-width: 170px;
-      max-width: 170px;
-      margin: 2rem 1rem;
+      /*margin: 2rem 1rem;*/
     }
   }
 
   @media (min-width: 600px) and (max-width: 1000px) {
     .legend {
-      margin: 0px 5px;
+      /*margin: 0px 5px;*/
     }
   }
+
 
   .countries {
     width: 100%;

@@ -1,8 +1,10 @@
 <script>
   import { tabledata } from '../../stores/tabledata';
+  import { descriptions } from '../../stores/data2';
   import { onMount } from 'svelte';
   import Icon from 'svelte-awesome';
   import check from 'svelte-awesome/icons/check';
+  import close from 'svelte-awesome/icons/close';
   import { information } from '../../utils/icons';
   import { questionMark } from '../../utils/icons';
   import { isVertical } from '../../stores/device';
@@ -11,6 +13,7 @@
   import TableSelect from '../TableSelect/TableSelect.svelte';
   import {
     countryFilter,
+    statusFilter,
   } from '../../stores/filter';
   import { getCoords } from '../../utils/misc';
   import InfoButton from '../TableSelect/InfoButton.svelte';
@@ -20,24 +23,27 @@
   });
 
   let infoElem;
-  let columns = [
-    {
-      name: 'Taxation',
-      title: 'Is taxation handled?'
-    },
-    {
-      name: 'AML/CFT',
-      title: ''
-    },
-    {
-      name: 'Consumer Protection',
-      title: ''
-    },
-    {
-      name: 'Licensing and Disclosure',
-      title: ''
-    },
-  ];
+  let columns;
+  $: {
+    columns = [
+      {
+        name: 'Taxation',
+        title: ( $descriptions.find(d => d.name === 'Taxation') || {} ).description
+      },
+      {
+        name: 'AML/CFT',
+        title: ( $descriptions.find(d => d.name === 'AML/CFT') || {} ).description
+      },
+      {
+        name: 'Consumer Protection',
+        title: ( $descriptions.find(d => d.name === 'Consumer Protection') || {} ).description
+      },
+      {
+        name: 'Licensing',
+        title: ( $descriptions.find(d => d.name === 'Licensing') || {} ).description
+      },
+    ];
+  }
 
   let info = {
     "architecture": {
@@ -59,15 +65,25 @@
       ]
     }
   };
+  let tax;
 </script>
 
 <div class="table-wrapper">
 <table>
   <thead>
   <tr class="">
-    <th>Country</th>
     <th><TableSelect
       filter={countryFilter}
+      label={'Country'}
+      fullRollup={[]}
+      rollup={[]}
+      info={'some info text'}
+      tooltip={tooltip}
+      showReset
+      showClickHint={`${$isVertical ? 'Tap' : 'Click'} to filter`}
+    /></th>
+    <th><TableSelect
+      filter={statusFilter}
       label={'Status'}
       fullRollup={[]}
       rollup={[]}
@@ -90,14 +106,26 @@
   </thead>
   <tbody>
   {#each $tabledata as row}
-  <tr>
-    <td>{row.country}</td>
-    <td>{row.status}</td>
-    <td>{#if row.taxation}<span class="check"><Icon data={check} /></span>{/if}</td>
-    <td>{#if row.aml_cft}<span class='check'><Icon data={check} /></span>{/if}</td>
-    <td>{#if row.consumer_protection}<span class='check'><Icon data={check} /></span>{/if}</td>
-    <td>{#if row.licensing_disclosure}<span class='check'><Icon data={check} /></span>{/if}</td>
-  </tr>
+      <tr>
+        <td>{row.country === 'United States of America' ? 'United States' : row.country}</td>
+        <td>{row.status}</td>
+        <td>
+          {#if row.categories.taxation.bool === 'Yes'}<span class="check"><Icon data={check} /></span>{/if}
+          {#if row.categories.taxation.bool === 'No'}<span class="close"><Icon data={close} /></span>{/if}
+        </td>
+        <td>
+          {#if row.categories.aml_cft.bool === 'Yes'}<span class='check'><Icon data={check} /></span>{/if}
+          {#if row.categories.aml_cft.bool === 'No'}<span class="close"><Icon data={close} /></span>{/if}
+        </td>
+        <td>
+          {#if row.categories.consumer_protection.bool === 'Yes'}<span class='check'><Icon data={check} /></span>{/if}
+          {#if row.categories.consumer_protection.bool === 'No'}<span class="close"><Icon data={close} /></span>{/if}
+        </td>
+        <td>
+          {#if row.categories.licensing_disclosure.bool === 'Yes'}<span class='check'><Icon data={check} /></span>{/if}
+          {#if row.categories.licensing_disclosure.bool === 'No'}<span class="close"><Icon data={close} /></span>{/if}
+        </td>
+      </tr>
   {/each}
   </tbody>
 </table>
@@ -114,7 +142,7 @@
     }
     table {
         width: 100%;
-        border-collapse: collapse;
+        /*border-collapse: collapse;*/
         position: relative;
     }
     thead {}
@@ -133,7 +161,10 @@
         font-family: var(--primFont);
         font-size: 18px;
         border: 1px solid #EAECF1;
+        border-top-style: none;
+        border-left-style: none;
         padding: 20px 25px;
+        width: 16.667%;
     }
 
     thead th {
@@ -144,12 +175,14 @@
     }
     th:first-child, td:first-child {
         border-left: 0;
+        font-weight: 700;
     }
     th:last-child, td:last-child {
         border-right: 0;
     }
 
-    span.check {
+    span.check,
+    span.close {
         display: inline-block;
         background-color: #4BAE4F;
         width: 25px;
@@ -158,6 +191,10 @@
         text-align: center;
         color: white;
         padding: 4px 5px;
+    }
+    span.close {
+        background-color: #B72951;
+        padding: 3px 6px;
     }
     td:nth-of-type(n+3) {
         text-align: center;

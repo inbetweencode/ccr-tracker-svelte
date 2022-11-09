@@ -5,7 +5,7 @@
   import { css } from './actions/css';
   import { isVertical } from './stores/device';
   import { tooltip } from './stores/definitions';
-  import { data } from './stores/data';
+  import { data, paragraphs } from './stores/data2';
   import { selectedDatum, selectedId, applySelected } from './stores/selection';
   import { resetAllFilters, filterByCategory, applyParams } from './stores/filter';
   import { parseUrl } from './stores/share';
@@ -18,6 +18,7 @@
   import Modal from './components/Modal/Modal.svelte';
   import Spotlight from './components/Spotlight/Spotlight.svelte'
   import Footer from './components/Footer.svelte';
+  import Paragraph from './components/Paragraph.svelte';
   import Table from './components/Table/Table.svelte';
 
   let width = 0;
@@ -60,18 +61,24 @@
   bind:clientHeight={height}
   use:css={styles}
 >
-  <FilterBarTop />
+  <!--<FilterBarTop />-->
   <!--<FilterBarBottom />-->
   <Map />
   {#if ($selectedDatum)}
-    <!--<Modal
+    <Modal
       datum={$selectedDatum}
       on:categoryclick={handleModalCategoryClick}
       on:close={() => $selectedId = null}
-    />-->
+    />
   {/if}
   <Footer />
   <!--<Spotlight />-->
+  {#if $paragraphs[0]}
+  <Paragraph
+    heading={$paragraphs.find(d => d.name === 'below_map').heading}
+    text={$paragraphs.find(d => d.name === 'below_map').text}
+  />
+  {/if}
 
   {#if ($tooltip)}
     <Tooltip

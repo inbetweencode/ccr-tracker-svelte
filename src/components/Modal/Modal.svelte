@@ -14,6 +14,12 @@
   const dispatch = createEventDispatcher();
 
   let showOverlayCloseButton = false;
+  let expanded = false;
+
+  function handleExpand() {
+    expanded = !expanded;
+  }
+
 
   function close() {
     dispatch('close');
@@ -46,8 +52,8 @@
 <svelte:window on:keydown={handleKeydown} />
 
 <div
-  class="modal"
-  use:css={{statusColor: datum.categories.new_status.color}}
+  class="modal {expanded ? 'expanded' : ''}"
+  use:css={{statusColor: '#000'/*datum.categories.new_status.color*/}}
   transition:fade={{duration: 200}}
 >
   <div
@@ -71,29 +77,34 @@
     <div
       class="header"
     >
-      <div class="header-top-line">
-        <button
-          class="close-button"
-          on:click={close}
-        >
-          <span>+</span>
-        </button>
-      </div>
       <div class="header-content">
-        <h1>{datum.name.name === 'United States of America' ? 'United States' : datum.name.name}</h1>
-        {#if (datum.currency_name)} 
-          <h2>Project Name – {datum.currency_name}</h2>
-        {/if}
-        <p>{datum.overview}</p>
+        <h1>{datum.country === 'United States of America' ? 'United States' : datum.country}</h1>
+        <div class="header-content-right">
+          <button
+            class="expand-button"
+            on:click={handleExpand}
+          >
+            {expanded ? 'See less' : 'See more'}
+          </button>
+          <button
+            class="close-button"
+            on:click={close}
+          >
+            <span>+</span><!-- make pseudo element -->
+          </button>
+        </div>
+
       </div>
     </div>
     <div class="body">
+      {#if expanded}
       <div class="categories-wrapper">
-        <h2>Properties<span class="small">(Click to filter)</span></h2>
+        <!--<h2>Properties<span class="small">(Click to filter)</span></h2>-->
         <div class="categories">
           {#each categories as cat (cat.title)}
+            {#if cat.description || (cat.bool != null && !cat.description)}
             <div
-              class="category"
+              class="category {cat.highlight ? 'highlight' : ''}"
               use:css={{chipColor: cat.color}}
             >
               <h3>{cat.title}</h3>
@@ -105,32 +116,48 @@
                   {cat.name}
                 </button>
               {:else}
-                <span>{cat.name}</span>
+                <span>{cat.description?cat.description:cat.bool}</span>
               {/if}
             </div>
+            {/if}
           {/each}
         </div>
       </div>
+      {/if}
       <main>
-        <h2>Key developments</h2>
-        <p>{@html datum.key_developments}</p>
-        <h4>Sources</h4>
+        <h2>Regulatory Status: <span>{@html datum.status}</span></h2>
+        <p>{datum.description}</p>
+        <h4>Timeline</h4>
         <div class="sources">
-          {#if (datum.sources.central_bank_name)}
+          <!--{#if (datum.sources.central_bank_name)}
             <a href={datum.sources.central_bank_url} target="_blank">{datum.sources.central_bank_name}</a>
-          {/if}
-          <p>Atlantic Council Research</p>
-          {#if (datum.sources.media_urls.length)}
+          {/if}-->
+          <p>{datum.timeline}</p>
+          <!--{#if (datum.sources.media_urls.length)}
             <ul class="media-sources">
               {#each datum.sources.media_urls as url}
                 <li><a href={url} target="_blank">{extractHostname(url)}</a></li>
               {/each}
             </ul>
-          {/if}
+          {/if}-->
         </div>
+        {#if (datum.source_urls.length)}
+        <h4>Sources</h4>
+        <div class="sources">
+          <!--{#if (datum.sources.central_bank_name)}
+            <a href={datum.sources.central_bank_url} target="_blank">{datum.sources.central_bank_name}</a>
+          {/if}-->
+          <!--<p>{datum.timeline}</p>-->
+            <ul class="media-sources">
+              {#each datum.source_urls as url, i}
+                <li><a href={url} target="_blank">{datum.source_titles[i]} [{extractHostname(url)}]</a></li>
+              {/each}
+            </ul>
+        </div>
+        {/if}
         <h4>Share</h4>
         <div class="share-panel">
-          <Share />
+          <!--<Share />-->
         </div>
       </main>
     </div>
@@ -139,16 +166,22 @@
 
 <style>
   .modal {
-    position: fixed;
+    position: absolute;
     left: 0;
-    top: 0;
+    top: 2.5%;
     z-index: 10000;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     width: 100vw;
     height: 100vh;
     font-family: var(--primFont);
+  }
+
+  .modal.expanded {
+      position: fixed;
+      top: 0;
+      align-items: center;
   }
 
   .modal-outer {
@@ -157,48 +190,60 @@
     height: 100%;
     margin: 0;
     padding: 0;
-    background-color:#000000;
     opacity: 0.7;
+  }
+  .modal.expanded .modal-outer {
+    background-color: #000;
   }
 
   .modal-inner {
     position: relative;
-    width: 100%;
+    width: 90%;
     /* height: 100%; */
     height: 90%;
     /* padding-bottom: 150px;*/
     padding-bottom: 30px;
     background-color: var(--background);
-    border: 1px solid var(--statusColor);
+    /*border: 1px solid var(--statusColor);*/
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     overflow-y: auto;
   }
 
   @media (min-width: 980px) {
     .modal-inner {
-      width: 90%;
+      width: 50%;
       max-width: 1600px;
-      height: 90%;
+      height: auto;
+    }
+    .modal.expanded .modal-inner {
+          width: 90%;
+          max-width: 1600px;
+          height: 90%;
     }
   }
 
   .header {
     width: 100%;
-    padding: 1.5rem 0 3rem 0;
-    background-color: var(--statusColor);
+    padding: 1.5rem 0 1.5rem 0;
+    background-color: #B72951;
   }
 
-  .header-top-line {
-    display: flex;
-    justify-content: flex-end;
-    width: 100%;
-    padding: 0 1.5rem 0 2rem;
+  .expand-button {
+      color: var(--background);
+      background-color: transparent;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      vertical-align: text-bottom;
+      font-size: 1rem;
+      height: 1.875rem;
   }
 
   .close-button {
-    width: 50px;
-    height: 50px;
+    width: 1.875rem;
+    height: 1.875rem;
     color: var(--background);
-    background-color: var(--statusColor);
+    background-color: transparent;
     border: none;
     outline: none;
     cursor: pointer;
@@ -217,7 +262,7 @@
 
   .close-button span {
     display: inline-block;
-    font-size: 3rem;
+    font-size: 1.9rem;
     font-weight: bold;
     line-height: 1;
     transform: rotate(45deg);
@@ -226,6 +271,8 @@
   .header-content {
     width: 100%;
     padding: 0 1rem;
+    display: flex;
+    justify-content: space-between;
   }
 
   .header-content h2 {
@@ -235,16 +282,18 @@
   }
 
   .header-content h1 {
-    /*margin: 1rem 0;*/
-    margin: 6rem 0 1rem 0;
-    font-size: 3rem;
+    font-size: 1.5rem;
     color: var(--background);
+  }
+
+  .header-content-right {
+      vertical-align: middle;
   }
 
   p {
     color: var(--darkgray);
     font-size: 1.2rem;
-    line-height: 1.5;
+    line-height: 1.3;
   }
 
   .header-content p {
@@ -276,18 +325,19 @@
 
   .categories-wrapper {
     padding: 2rem 1rem;
+      flex: 1;
   }
 
   .categories {
     flex: 1;
-    display: flex;
-    flex-direction: column;
+    /*display: flex;*/
+    /*flex-direction: column;*/
     flex-wrap: wrap;
   }
 
   @media (min-width: 600px) {
     .categories {
-      flex-direction: row;
+      /*flex-direction: row;*/
     }
   }
 
@@ -304,21 +354,24 @@
 
   .category {
     margin: 1.5rem 1.5rem 1.5rem 0;
+      color: var(--darkgray);
   }
 
+  .category.highlight {
+      color: #B72951;
+  }
   .category h3 {
-    color: var(--darkgray);
     font-size: 1.5rem;
     font-weight: normal;
     white-space: nowrap;
   }
 
   .category span {
-    display: inline-block;
+    display: block;
     margin: 0.5rem 0;
-    color: var(--darkgray);
+    /*color: var(--darkgray);*/
     font-size: 1.2rem;
-    opacity: 0.8;
+    /*opacity: 0.8;*/
   }
 
   .chip {
@@ -340,12 +393,13 @@
     width: 100%;
     max-width: 1100px;
     padding: 2rem 1rem;
+      flex: 1;
   }
 
   @media (min-width: 980px) {
     main {
       order: 1;
-      width: 60%;
+      width: 200%;
       padding: 2rem 3rem;
     }
   }
@@ -354,6 +408,10 @@
     margin: 0.8rem 0;
     color: var(--darkgray);
     font-size: 1.7rem;
+  }
+
+  main h2 span {
+    font-weight: normal;
   }
 
   .small {
@@ -377,7 +435,7 @@
 
   @media (min-width: 980px) {
     .sources ul.media-sources {
-      flex-direction: row;
+      /*flex-direction: row;*/
     }
   } 
 
@@ -392,8 +450,8 @@
 
   .sources p {
     margin: 0.4rem 0 0.35rem 0;
-    font-size: 1.1rem;
-    line-height: 1.2;
+    font-size: 1.2rem;
+    line-height: 1.3;
   }
 
   .share-panel {

@@ -16,6 +16,7 @@ function createMultiFilter() {
   const { subscribe, set, update } = writable([]);
 
   const init = (data, col = null) => {
+    //console.log(data, col)
     let values = data;
     if (col !== null) {
       values = [
@@ -27,6 +28,7 @@ function createMultiFilter() {
             .flat()
         ),
       ];
+      //console.log(values)
       values = sortBy(values, (d) => d.toLowerCase());
     }
     set(
@@ -130,17 +132,17 @@ export const crossborderPartnershipsFilter = createMultiFilter();
 
 export const initFilters = (data) => {
   statusFilter.init(statusLevels.map((d) => d.name).filter(d => d != "Other"));
-  countryFilter.init(data, 'name');
-  useCaseFilter.init(useCaseLevels.map((d) => d.name));
-  technologyFilter.init(data, 'categories.technology');
-  architectureFilter.init(architectureLevels.map((d) => d.name));
-  infrastructureFilter.init(infrastructureLevels.map((d) => d.name));
-  accessFilter.init(accessLevels.map((d) => d.name));
-  corporatePartnershipFilter.init(data, 'categories.corporate_partnership');
-  crossborderPartnershipsFilter.init(
-    data,
-    'categories.crossborder_partnerships'
-  );
+  countryFilter.init(data, 'country');
+  //useCaseFilter.init(useCaseLevels.map((d) => d.name));
+  //technologyFilter.init(data, 'categories.technology');
+  //architectureFilter.init(architectureLevels.map((d) => d.name));
+  //infrastructureFilter.init(infrastructureLevels.map((d) => d.name));
+  //accessFilter.init(accessLevels.map((d) => d.name));
+  //corporatePartnershipFilter.init(data, 'categories.corporate_partnership');
+  //crossborderPartnershipsFilter.init(
+  //  data,
+  //  'categories.crossborder_partnerships'
+  //);
 };
 
 export const filterByCategory = (category, name) => {

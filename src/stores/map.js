@@ -51,7 +51,7 @@ const features = readable([], async (set) => {
   const capitals = await loadCapitals(capitalDataPath);
 
   // merge
-  const mapData = [...countries, euroArea].map((d, i) => {
+  const mapData = [...countries].map((d, i) => {
     const { lat, lon, name } =
       capitals.find((capital) => capital.country === d.properties.name) || {};
     return {
@@ -61,10 +61,10 @@ const features = readable([], async (set) => {
         name,
         coordinates: [+lon, +lat],
       },
-      isClusterMember: clusterSetup
+      isClusterMember: false /*clusterSetup
         .map((cluster) => cluster.countries)
         .flat()
-        .includes(d.properties.name),
+        .includes(d.properties.name)*/,
     };
   });
 
@@ -136,6 +136,7 @@ export const projectedData = derived([features, path], ([$features, $path]) => {
   });
   return features;
 });
+
 
 export const clusters = derived(
   path,

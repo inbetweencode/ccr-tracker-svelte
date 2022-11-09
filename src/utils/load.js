@@ -66,7 +66,7 @@ export const loadTrackerData = async (dataPath) => {
     );
 
   // initialize the filters
-  initFilters(filteredData);
+  //initFilters(filteredData);
 
   return filteredData;
 };
@@ -202,4 +202,150 @@ export const loadTableData = async (table) => {
   */
 
 }
+
+const curateYesNo = (value) => {
+  if (typeof value === 'undefined') return '';
+  return value;
+};
+
+
+export const loadData = async (table) => {
+  // load and format the data
+  const data = await base(table).select().all().then(records => {
+    let rows = records.map(function(record,index, array){
+      return {
+        country: record.get('Country'),
+        status: curateString(record.get('Overall Status')),
+        description: curateString(record.get('Overall Status - Description')),
+        timeline: curateString(record.get('Timeline')),
+        source_urls: curateString(record.get('Source Links')).split(';').filter(dd => dd),
+        source_titles: curateString(record.get('Source Titles')).split(';').filter(dd => dd),
+        categories: {
+          relevant_authorities: {
+            title: 'Relevant Authorities',
+            bool: null,
+            description: curateString(record.get('Relevant Authorities')),
+            highlight: true
+          },
+          consideration: {
+            title: 'Regulation under consideration',
+            bool: curateYesNo(record.get('Regulation under consideration')),
+            description: null,
+            highlight: true
+          },
+          regulated_actors: {
+            title: 'Regulated Actors',
+            bool: null,
+            description: curateString(record.get('Regulated Actors')),
+            highlight: true
+          },
+          taxation: {
+            title: 'Taxation',
+            bool: curateYesNo(record.get('Taxation')),
+            description: curateString(record.get('Taxation - Description'))
+          },
+          aml_cft: {
+            title: 'AML/CFT',
+            bool: curateYesNo(record.get('AML/CFT')),
+            description: curateString(record.get('AML/CFT - Description'))
+          },
+          consumer_protection: {
+            title: 'Consumer Protection',
+            bool: curateYesNo(record.get('Consumer Protection')),
+            description: curateString(record.get('Consumer Protection - Description'))
+          },
+          licensing_disclosure: {
+            title: 'Licensing',
+            bool: curateYesNo(record.get('Licensing')),
+            description: curateString(record.get('Licensing - Description'))
+          },
+        }
+      }
+    });
+    return rows;
+  });
+
+  // initialize the filters
+  initFilters(data);
+
+
+  return data;
+
+  /*
+  await csv(dataPath, (d) => {
+    let mediaSources;
+    if (d['Media Sources'] !== undefined) {
+      mediaSources = d['Media Sources'].split(';').filter(dd => dd);
+    } else {
+      mediaSources = '';
+    }
+    return {
+      owner: d.Owner,
+      name: d.Name,
+      currency_name: d['Name of CBDC'],
+      overview: d.Overview,
+      overview_spotlight: d['Overview Spotlight'],
+      key_developments: d['Key Developments'],
+      key_developments_spotlight: d['Key Developments Spotlight'],
+      categories: {
+        // former version
+        // new_status: curate(d['New Status']),
+        new_status: curate(d['October Status']),
+        use_case: curate(d['Use case']),
+        technology: curate(d['Underlying technology']),
+        architecture: curate(d['Architecture: direct CBDC or hybrid']),
+        infrastructure: curate(d['Infrastructure: DLT or conventional']),
+        access: curate(d['Access: token or account']),
+        corporate_partnership: curate(d['Technology partnership']),
+        crossborder_partnerships: curate(d['Cross-border projects']),
+      },
+      sources: {
+        central_bank_name: d['Central Bank Name'],
+        central_bank_url: d['Central Bank Source to Hyperlink'],
+        // media_urls: d['Media Sources'].split(';').filter(dd => dd)
+        media_urls: d['Media Sources'].split(';').filter(dd => dd)
+      },
+      notes: d.Notes,
+    };
+  });
+  */
+
+}
+
+
+export const loadParagraphs = async (table) => {
+  // load and format the data
+  const data = await base(table).select().all().then(records => {
+    let rows = records.map(function(record,index, array){
+      return {
+        name: record.get('Name'),
+        heading: curateString(record.get('Heading')),
+        text: curateString(record.get('Text')),
+      }
+    });
+    return rows;
+  })
+
+  return data;
+}
+
+
+
+export const loadDescriptions = async (table) => {
+  // load and format the data
+
+  const data =  await base(table).select().all().then(records => {
+    let rows = records.map(function(record,index, array){
+      return {
+        name: record.get('Name'),
+        description: curateString(record.get('Description')),
+      }
+    });
+    return rows;
+  })
+
+  return data;
+}
+
+
 

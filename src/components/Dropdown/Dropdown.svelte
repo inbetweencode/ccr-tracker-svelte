@@ -6,7 +6,7 @@
   import { getCoords } from '../../utils/misc';
   
   import Icon from 'svelte-awesome';
-  import Chip from './Chip.svelte';
+  import Chip from '../TableSelect/Chip.svelte';
   import BarChart from './BarChart.svelte';
   import Suggestion from './Suggestion.svelte';
 

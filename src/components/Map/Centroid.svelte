@@ -12,6 +12,7 @@
   export let isCluster = false;
   export let isReactive = true;
   export let inverted = false;
+  export let hovered = false;
 
   const tOffset = tweened(null, { duration: 100 });
   const tRadius = tweened(0, { duration: 100 });
@@ -53,6 +54,13 @@
     r={$tRadius / 1.5}
     stroke-width={$tRadius / 7}
   />
+
+  {#if hovered}
+  <g>
+    <text x="0" y="-15" text-anchor="middle" class='country-name'>{dataCountry.name}</text>
+  </g>
+  {/if}
+
   {#if (isCluster)}
     <circle
       class="foreground"
@@ -117,5 +125,11 @@
 
   .inverted circle.foreground {
     stroke: var(--color);
+  }
+
+  .country-name {
+      font-family: var(--primFont);
+      fill: #B72951;
+      font-weight: bold;
   }
 </style>

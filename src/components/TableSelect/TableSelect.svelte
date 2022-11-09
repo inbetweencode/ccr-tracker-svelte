@@ -2,11 +2,11 @@
   import { clickOutside } from '../../actions/clickoutside';
   import { setFocus } from '../../actions/focus';
   import { areAllSelected, hasOverlap } from "../../utils/logic";
-  import { questionMark } from '../../utils/icons';
+  import arrowDown from 'svelte-awesome/icons/angle-down';
   import { getCoords } from '../../utils/misc';
 
   import Icon from 'svelte-awesome';
-  import Chip from '../Dropdown/Chip.svelte';
+  import Chip from './Chip.svelte';
   import BarChart from '../Dropdown/BarChart.svelte';
   import Suggestion from '../Dropdown/Suggestion.svelte';
 
@@ -20,6 +20,7 @@
   export let showReset = false;
   export let hideColorBoxes = false;
   export let showClickHint = false;
+  export let context = false;
 
 
   let searchValue = '';
@@ -111,7 +112,7 @@
 
 <svelte:window on:keydown={handleKeydown} />
 
-<div class="dropdown">
+<div class="{'in-'+context} select">
   <label
     class:active={showSuggestions}
     for={id}
@@ -119,25 +120,18 @@
     <span
       class="title"
     >
-      {label}
+      {label}:
       {#if (info)}
-        <button
-          class="info"
-          bind:this={infoElem}
-          on:mouseenter={() => handleInfo(true)}
-          on:mouseleave={() => handleInfo(false)}
-        >
-          <Icon data={questionMark} />
-        </button>
+
       {/if}
     </span>
     {#if (showReset && chips.length)}
-      <button
+      <!--<button
         on:click={handleResetClick}
       >
         <span>Reset</span>
         <span class="reset">+</span>
-      </button>
+      </button>-->
     {/if}
   </label>
   <div
@@ -145,12 +139,16 @@
     on:click={() => showSuggestions = true}
     use:clickOutside={handleFieldClickOutside}
   >
-    {#if (showClickHint && !chips.length)}
-      <span class="click-hint">
-        {showClickHint}
-      </span>
-    {/if}
     <ul class="chips">
+      {#if (!chips.length)}
+        <li>
+          <Chip
+            id=0
+            name="All"
+            hasCloseButton={false}
+          />
+        </li>
+      {/if}
       {#each chips as { id, name} (id)}
         <li>
           <Chip
@@ -161,12 +159,16 @@
         </li>
       {/each}
     </ul>
+    {#if (showClickHint)}
+      <span class="click-hint"><Icon data={arrowDown} /></span>
+    {/if}
+
   </div>
-  <BarChart
+  <!--<BarChart
     rollup={rollup}
     fullRollup={fullRollup}
     dummy={!rollup.length || !fullRollup.length}
-  />
+  />-->
   {#if (showSuggestions)}
     <div class="suggestions">
       <input
@@ -199,3 +201,71 @@
     </div>
   {/if}
 </div>
+
+<style>
+
+  .select {
+      /*box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.15);*/
+      box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.13);
+      position: relative;
+      padding: 10px;
+  }
+  div.field {
+      display: inline-block;
+  }
+  ul.chips {
+      list-style: none;
+      display: inline-block;
+  }
+  .click-hint {
+      /*font-size: 1.55rem;*/
+      /*padding: 0 0.2rem;*/
+      line-height: 100%;
+      /*transform: rotate(90deg);*/
+      color: #6E717D;
+      vertical-align: middle;
+      display: inline-block;
+      margin-bottom: -2px;
+  }
+  div.suggestions {
+      position: absolute;
+      width: calc(100% + 50px);
+      background-color: #F7F7F7;
+      /*max-height: 400px;*/
+      /*overflow-y: scroll;*/
+      /*overflow: auto;*/
+      left: -25px;
+  }
+  ul.suggestions {
+      max-height: 400px;
+      list-style-type: none;
+      overflow-y: auto;
+
+
+  }
+  input {
+      width: 100%;
+      height: var(--inputHeight);
+      padding: 0 0.5rem;
+      font-size: 1.1rem;
+      background-color: var(--secWhite);
+      border: none;
+      outline: none;
+  }
+
+  .in-legend.select {
+      background-color: var(--background);
+      float: left;
+      margin-right: 10px;
+      margin-bottom: 10px;
+  }
+
+  .in-legend.select .title {
+      color: #000;
+  }
+  ul.chips .chip-icon {
+      margin-top: -1rem;
+  }
+
+
+</style>

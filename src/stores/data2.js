@@ -1,6 +1,6 @@
 import { readable, derived } from 'svelte/store';
 
-import { loadTrackerData, loadTableData } from '../utils/load';
+import { loadTrackerData, loadData, loadParagraphs, loadDescriptions } from '../utils/load';
 
 import {
   statusFilter,
@@ -85,7 +85,7 @@ base('Table data').select().eachPage(function page(records, fetchNextPage) {
 
 
 export const rawTableData = readable([], async (set) => {
-  set(await loadTableData('Table data'));
+  set(await loadData('MASTER DATA'));
 });
 
 export const data = derived(
@@ -114,11 +114,56 @@ export const data = derived(
      $crossborderPartnershipsFilter,
    ]) => {
     //console.log($rawTableData);
-    return $rawTableData.map((d) => {
+    return $rawTableData.filter((d) => {
+      //console.log(d, $statusFilter, hasOverlap([d.status], $statusFilter));
+
+      if (hasOverlap([d.status], $statusFilter) &&
+        hasOverlap([d.country], $countryFilter)) {
+        //return true;
+        return {
+          ...d,
+          show: (hasOverlap([d.status], $statusFilter) &&
+            hasOverlap([d.country], $countryFilter))
+        };
+      } else {
+        return false;
+      }
+    }).map((d) => {
+      console.log(typeof d.source_urls, d.source_urls);
       return {
-        ...d
-      };
+        ...d,
+        source_urls: d.source_urls/*.split(';').filter(dd => dd)*/,
+        source_titles: d.source_titles/*.split(';').filter(dd => dd)*/,
+      }
+
     });
+  },
+  []
+);
+
+
+export const rawParagraphs = readable([], async (set) => {
+  set(await loadParagraphs('Paragraphs'));
+});
+
+export const paragraphs = derived(
+  [ rawParagraphs ],
+  ([ $rawParagraphs]) => {
+    return $rawParagraphs.filter( d => typeof d.name !== 'undefined')
+  },
+  []
+);
+
+
+export const rawDescriptions = readable([], async (set) => {
+  set(await loadDescriptions('Column Descriptions'));
+});
+
+export const descriptions = derived(
+  [ rawDescriptions ],
+  ([ $rawDescriptions]) => {
+    //console.log($rawDescriptions);
+    return $rawDescriptions/*.filter( d => typeof d.description !== 'undefined')*/
   },
   []
 );

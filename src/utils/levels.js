@@ -11,32 +11,26 @@ export const statusColors = [
 export const statusLevels = [
   {
     id: 0,
-    name: 'Launched',
+    name: 'Legal',
   },
   {
     id: 1,
-    name: 'Pilot',
+    name: 'Partial Ban',
   },
   {
     id: 2,
-    name: 'Development',
-  },
+    name: 'General Ban',
+  }/*,
   {
     id: 3,
-    name: 'Research',
+    name: 'Implicit Ban',
   },
   {
     id: 4,
-    name: 'Inactive',
-  },
-  {
-    id: 5,
-    name: 'Canceled',
-  },
-  {
-    id: 6,
-    name: 'Other'
-  }
+    name: 'Under Consideration',
+  }*/
+
+
 ];
 
 export const useCaseLevels = [

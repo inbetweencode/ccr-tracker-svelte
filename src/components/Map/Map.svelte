@@ -3,10 +3,10 @@
   import { zoom as d3zoom, select, zoomIdentity } from 'd3';
 
   import { mapWidth, mapHeight, initialTransform, mapTransform, projectedData } from '../../stores/map';
-  import { data } from '../../stores/data';
+  import { data } from '../../stores/data2';
   import { dataCountries, dataClusters } from '../../stores/datacountries';
   import { colorCategory } from '../../stores/colorcategory';
-  import { hoveredIds, selectedId } from '../../stores/selection';
+  import { hoveredIds, selectedDatum, selectedId } from '../../stores/selection';
   import { hoveredClusterIds } from '../../stores/selectionclusters';
   import { statusFilter, filterByCategory, countryFilter, anyFilterActive, resetAllFilters } from '../../stores/filter';
   import { fullStatusRollup, statusRollup, totalCountries } from '../../stores/aggregation';
@@ -158,7 +158,7 @@
 
   $: if ($data && !$isVertical && $mapWidth && $mapHeight) zoomReset({animation: $data.length});
 
-  $: centroidRadius = Math.max(8, Math.min(14, 0.008 * Math.max($mapWidth, $mapHeight)));
+  $: centroidRadius = Math.max(7, Math.min(14, 0.006 * Math.max($mapWidth, $mapHeight)));
 </script>
 
 <svelte:window on:keydown={handleKeyDown} on:keyup={handleKeyUp} on:mousewheel={handleScroll} />
@@ -200,10 +200,10 @@
     {#each $projectedData as country}
       <Country
         path={country.path}
-        color={styles.countryEnabled || $data.find(d => d.name.name === country.name)?.categories[$colorCategory].color}
-        strokeColor={ styles.countryDisabled}
-        fallbackFillColor={styles.countryDisabled}
-        fillOpacity={$data.find(d => d.name.name === country.name)?.show ? 1.0 : 0.5}
+        color={typeof $data.find(d => { return d.country === country.name}) !== 'undefined' ? '#B72951' : '#B72951'}
+        strokeColor={ styles.countryEnabled}
+        fallbackFillColor={styles.countryEnabled}
+        fillOpacity={(country.id === $selectedId) ? 1 : 0.31}
         mode={'stroke' || country.status === 'country' ? 'area' : 'stroke'}
       />
     {/each}
@@ -214,21 +214,23 @@
     viewBox="0 0 {$mapWidth} {$mapHeight}"
     bind:this={zoomCatcherElem}
   >
- <!--   {#each $dataCountries as country (country.orderId)}
+
+    {#each $dataCountries as country (country.orderId)}
         <Centroid
           dataCountry={country}
           radius={centroidRadius}
-          color={country.categories[$colorCategory].color}
-          opacity={country.show ? 1 : 0}
-          isReactive={country.show}
+          color={country.status == 'Yes' ? '#0F0' : ( country.status == 'No' ? '#F00' : '#B72951') }
+          opacity={ 1 }
+          isReactive={ true }
           inverted={country.status === 'region'}
           offset={$mapTransform.k > $initialTransform.k * clusterZoom ? [0, 0] : country.offset}
           on:mouseenter={(e) => handleCentroidMouseEnter(e, country.id)}
           on:mouseleave={(e) => handleCentroidMouseLeave(e, country.id)}
           on:touchstart={(e) => handleCentroidClick(e, country.id)}
           on:click={(e) => handleCentroidClick(e, country.id)}
+          hovered={($hoveredIds.includes(country.id))}
         />
-    {/each}-->
+    {/each}
     
     <!--{#each $dataClusters as cluster (cluster.id)}
       {#if ($mapTransform.k < $initialTransform.k * clusterZoom)}
@@ -248,7 +250,7 @@
 
     
   </svg>
-  <svg
+  <!--<svg
     class="top"
     width={$mapWidth}
     height={$mapHeight}
@@ -274,7 +276,7 @@
         on:mouseleave={(e) => handleCentroidClusterMouseLeave(e, hoveredClusterId)}
       />
     {/each}
-  </svg>
+  </svg>-->
 </div>
 
 <style>
@@ -284,6 +286,7 @@
     height: 180vw;
     overflow: hidden;
     border-top: 1px dashed var(--gray);
+    background-color: #FFEDF2; /*B72951*/
   }
   
   @media (min-width: 600px) {

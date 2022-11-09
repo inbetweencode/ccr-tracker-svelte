@@ -3,9 +3,7 @@
 </script>
 
 <footer>
-  <p class="sources">
-    Sources: Atlantic Council Research, Bank of International Settlements, International Monetary Fund, John Kiff Database
-  </p>
+  <p class="sources"></p>
   <Share>Share this view</Share>
 </footer>
 
@@ -16,7 +14,7 @@
     justify-content: space-between;
     width: 100%;
     padding: 0 1rem;
-    border-bottom: 1px dashed var(--gray);
+    /*border-bottom: 1px dashed var(--gray);*/
   }
 
   p.sources {

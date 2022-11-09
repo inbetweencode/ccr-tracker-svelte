@@ -21,9 +21,10 @@
 <style>
   .reset-filters {
     position: absolute;
-    left: 0;
+    /*left: 0;
     right: auto;
-    top: 0;
+    top: 0;*/
+    bottom: 0;
     z-index: 901;
     margin: 2rem 1rem;
     background-color: var(--background);
@@ -34,6 +35,7 @@
     .reset-filters {
       left: auto;
       right: 0;
+      bottom: auto;
       margin: 2rem 4rem;
     }
   }

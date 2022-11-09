@@ -1,12 +1,13 @@
 import { derived } from 'svelte/store';
 import { sortBy } from 'lodash-es';
 
-import { data } from './data';
+import { data } from './data2';
 import { projectedData, mapWidth, mapHeight, clusters } from './map';
 import { colorCategory } from './colorcategory';
 import { isDefined } from '../utils/logic';
 import { getMinus, getColorFromCountries } from '../utils/geo';
 
+//console.log(projectedData);
 export const dataCountries = derived(
   [
     data,
@@ -21,17 +22,17 @@ export const dataCountries = derived(
     $mapHeight,
     $clusters
   ]) => {
-  const availableCountries = $data.map(d => d.name.name);
+  const availableCountries = $data.map(d => d.country);
   const dataCountries = sortBy($projectedData
     .flat()
     .filter(d => isDefined(d.path))
     .filter(d => availableCountries.includes(d.name))
     .map(d => {
-      const datum = $data.find(dd => dd.name.name === d.name);
+      const datum = $data.find(dd => dd.country === d.name);
       return {
         ...d,
         ...datum,
-        cluster: $clusters.find(cluster => cluster.countries.includes(datum.name.name))
+        cluster: $clusters.find(cluster => cluster.countries.includes(datum.country))
       };
     }),
     [

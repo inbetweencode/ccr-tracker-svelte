@@ -33,24 +33,26 @@
 <style>
   .chip-wrapper {
     display: flex;
-    align-items: center;
+    /*align-items: center;*/
     justify-content: center;
     height: 100%;
-    padding: 0.2rem 0.3rem;
-    color: var(--primBlack);
-    font-size: 0.9rem;
-    background-color: var(--background);
+    /*padding: 0.2rem 0.3rem;*/
+    color: var(--darkgray);
+    font-weight: normal;
+    /*font-size: 0.9rem;*/
+    /*background-color: var(--background);*/
     border: none;
-    border-radius: 5px;
+    /*border-radius: 5px;*/
     user-select: none;
   }
 
   button.chip-icon {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     background-color: transparent;
     border: none;
     outline: none;
     cursor: pointer;
+    margin-bottom: -0.15rem;
   }
 
   button.chip-icon:hover {
