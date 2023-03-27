@@ -31,8 +31,6 @@
     selectSource.set('table');
   }
   /*
-  on:touchstart={(e) => handleRowClick(e, row.id)}
-  on:click={(e) => handleRowClick(e, row.id)}
   */
 
   let infoElem;
@@ -123,6 +121,8 @@
       <tr>
         <td>
           <span
+            on:touchstart={(e) => handleRowClick(e, row.id)}
+            on:click={(e) => handleRowClick(e, row.id)}
           >
             {row.country === 'United States of America' ? 'United States' : row.country}
           </span>
@@ -156,7 +156,8 @@
     .table-wrapper {
         box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.15);
         margin: 30px;
-        max-height: 500px;
+        height: 50vw;
+        max-height: 800px;
         overflow-y: scroll;
     }
     table {

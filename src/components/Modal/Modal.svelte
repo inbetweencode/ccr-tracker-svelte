@@ -165,7 +165,7 @@
   .modal {
     position: absolute;
     left: 0;
-    top: 2.5%;
+    top: 0;
     z-index: 10000;
     display: flex;
     align-items: flex-start;
@@ -195,6 +195,7 @@
 
   .modal-inner {
     position: relative;
+    top: 2.5%;
     width: 90%;
     /* height: 100%; */
     height: 90%;
@@ -203,14 +204,29 @@
     background-color: var(--background);
     /*border: 1px solid var(--statusColor);*/
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    overflow-y: auto;
+    /*overflow-y: auto;*/
+  }
+
+  .modal.expanded .modal-inner {
+      top: 0;
+  }
+
+  .modal.table .modal-inner {
+      top: unset;
+      position: absolute;
+      bottom: 30px;
+      right: 30px;
+      width: calc( (100% - 60px) * 0.8383);
   }
 
   @media (min-width: 980px) {
     .modal-inner {
       width: 50%;
       max-width: 1600px;
-      height: auto;
+      height: calc(50vw - 5%);
+    }
+    .modal.table .modal-inner {
+        height: calc(50vw);
     }
     .modal.expanded .modal-inner {
           width: 90%;
@@ -317,6 +333,8 @@
   @media (min-width: 980px) {
     .body {
       flex-direction: row;
+      overflow-y: auto;
+      height: calc(100% - 51px);
     }
   }
 
