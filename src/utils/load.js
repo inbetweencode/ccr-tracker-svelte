@@ -223,19 +223,19 @@ export const loadData = async (table) => {
         categories: {
           relevant_authorities: {
             title: 'Relevant Authorities',
-            bool: null,
+            bool: '',
             description: curateString(record.get('Relevant Authorities')),
             highlight: true
           },
           consideration: {
-            title: 'Regulation under consideration',
-            bool: curateYesNo(record.get('Regulation under consideration')),
-            description: null,
+            title: 'Regulation Under Consideration',
+            bool: curateYesNo(record.get('Regulation Under Consideration')),
+            description: '',
             highlight: true
           },
           regulated_actors: {
             title: 'Regulated Actors',
-            bool: null,
+            bool: '',
             description: curateString(record.get('Regulated Actors')),
             highlight: true
           },

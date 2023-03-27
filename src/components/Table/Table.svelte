@@ -1,6 +1,7 @@
 <script>
   import { tabledata } from '../../stores/tabledata';
   import { descriptions } from '../../stores/data2';
+  import { hoveredIds, selectedDatum, selectedId, selectSource } from '../../stores/selection';
   import { onMount } from 'svelte';
   import Icon from 'svelte-awesome';
   import check from 'svelte-awesome/icons/check';
@@ -21,6 +22,18 @@
 
   onMount(() => {
   });
+
+  function handleRowClick(e, id) {
+    if (e.touches && e.touches.length > 1) return;
+    e.preventDefault();
+    e.stopPropagation();
+    selectedId.set(4);
+    selectSource.set('table');
+  }
+  /*
+  on:touchstart={(e) => handleRowClick(e, row.id)}
+  on:click={(e) => handleRowClick(e, row.id)}
+  */
 
   let infoElem;
   let columns;
@@ -44,6 +57,7 @@
       },
     ];
   }
+
 
   let info = {
     "architecture": {
@@ -107,7 +121,12 @@
   <tbody>
   {#each $tabledata as row}
       <tr>
-        <td>{row.country === 'United States of America' ? 'United States' : row.country}</td>
+        <td>
+          <span
+          >
+            {row.country === 'United States of America' ? 'United States' : row.country}
+          </span>
+        </td>
         <td>{row.status}</td>
         <td>
           {#if row.categories.taxation.bool === 'Yes'}<span class="check"><Icon data={check} /></span>{/if}

@@ -6,7 +6,7 @@
   import { data } from '../../stores/data2';
   import { dataCountries, dataClusters } from '../../stores/datacountries';
   import { colorCategory } from '../../stores/colorcategory';
-  import { hoveredIds, selectedDatum, selectedId } from '../../stores/selection';
+  import { hoveredIds, selectedDatum, selectedId, selectSource } from '../../stores/selection';
   import { hoveredClusterIds } from '../../stores/selectionclusters';
   import { statusFilter, filterByCategory, countryFilter, anyFilterActive, resetAllFilters } from '../../stores/filter';
   import { fullStatusRollup, statusRollup, totalCountries } from '../../stores/aggregation';
@@ -98,6 +98,7 @@
     e.preventDefault();
     e.stopPropagation();
     selectedId.set(id);
+    selectSource.set('map');
   }
 
   function handleCentroidClusterMouseEnter(e, id) {

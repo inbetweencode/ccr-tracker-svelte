@@ -6,7 +6,7 @@
 
 <div class='paragraph'>
 <h3>{heading}</h3>
-<p>{text}</p>
+<p>{@html text.replace(/_([^_]*)_/g, '<i>$1</i>')}</p>
 </div>
 
 <style>
@@ -20,6 +20,7 @@
   }
   p {
       font-size: 1.25rem;
+      white-space: pre;
   }
 
 </style>

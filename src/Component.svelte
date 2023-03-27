@@ -6,7 +6,7 @@
   import { isVertical } from './stores/device';
   import { tooltip } from './stores/definitions';
   import { data, paragraphs } from './stores/data2';
-  import { selectedDatum, selectedId, applySelected } from './stores/selection';
+  import { selectedDatum, selectedId, applySelected, selectSource } from './stores/selection';
   import { resetAllFilters, filterByCategory, applyParams } from './stores/filter';
   import { parseUrl } from './stores/share';
 
@@ -64,13 +64,6 @@
   <!--<FilterBarTop />-->
   <!--<FilterBarBottom />-->
   <Map />
-  {#if ($selectedDatum)}
-    <Modal
-      datum={$selectedDatum}
-      on:categoryclick={handleModalCategoryClick}
-      on:close={() => $selectedId = null}
-    />
-  {/if}
   <Footer />
   <!--<Spotlight />-->
   {#if $paragraphs[0]}
@@ -80,6 +73,14 @@
   />
   {/if}
 
+  {#if ($selectedDatum)}
+    <Modal
+      datum={$selectedDatum}
+      on:categoryclick={handleModalCategoryClick}
+      on:close={() => $selectedId = null}
+      source={$selectSource}
+    />
+  {/if}
   {#if ($tooltip)}
     <Tooltip
       tooltip={$tooltip}

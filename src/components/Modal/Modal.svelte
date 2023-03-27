@@ -11,6 +11,8 @@
 
   export let datum;
 
+  export let source;
+
   const dispatch = createEventDispatcher();
 
   let showOverlayCloseButton = false;
@@ -52,7 +54,7 @@
 <svelte:window on:keydown={handleKeydown} />
 
 <div
-  class="modal {expanded ? 'expanded' : ''}"
+  class="modal {expanded ? 'expanded' : ''} {source ? source : ''}"
   use:css={{statusColor: '#000'/*datum.categories.new_status.color*/}}
   transition:fade={{duration: 200}}
 >
@@ -102,22 +104,17 @@
         <!--<h2>Properties<span class="small">(Click to filter)</span></h2>-->
         <div class="categories">
           {#each categories as cat (cat.title)}
-            {#if cat.description || (cat.bool != null && !cat.description)}
+            {#if !(cat.description === '' && cat.bool === 'null') &&
+                 !(cat.description === '' && cat.bool === '')
+            }
             <div
-              class="category {cat.highlight ? 'highlight' : ''}"
+              class="category"
+              class:highlight={cat.highlight}
               use:css={{chipColor: cat.color}}
             >
               <h3>{cat.title}</h3>
-              {#if (cat.filterable)}
-                <button
-                  class="chip"
-                  on:click={() => handleCategoryClick(cat.category, cat.name)}
-                >
-                  {cat.name}
-                </button>
-              {:else}
-                <span>{cat.description?cat.description:cat.bool}</span>
-              {/if}
+              <!--<span>{cat.description?cat.description:cat.bool}</span>-->
+              <span>{cat.description||cat.bool}</span>
             </div>
             {/if}
           {/each}
@@ -150,14 +147,14 @@
           <!--<p>{datum.timeline}</p>-->
             <ul class="media-sources">
               {#each datum.source_urls as url, i}
-                <li><a href={url} target="_blank">{datum.source_titles[i]} [{extractHostname(url)}]</a></li>
+                <li><a href={url} target="_blank">{datum.source_titles[i]}</a><!-- [{extractHostname(url)}]--></li>
               {/each}
             </ul>
         </div>
         {/if}
         <h4>Share</h4>
         <div class="share-panel">
-          <!--<Share />-->
+          <Share />
         </div>
       </main>
     </div>

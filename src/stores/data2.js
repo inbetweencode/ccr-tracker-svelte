@@ -129,7 +129,6 @@ export const data = derived(
         return false;
       }
     }).map((d) => {
-      console.log(typeof d.source_urls, d.source_urls);
       return {
         ...d,
         source_urls: d.source_urls/*.split(';').filter(dd => dd)*/,

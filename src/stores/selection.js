@@ -34,6 +34,7 @@ const generateIdArrayStore = () => {
 
 export const hoveredIds = generateIdArrayStore();
 export const selectedId = writable();
+export const selectSource = writable();
 
 export const selectedDatum = derived([dataCountries, selectedId], ([$dataCountries, $selectedId]) => {
   if ($selectedId === null) return null;
