@@ -114,7 +114,12 @@
             >
               <h3>{cat.title}</h3>
               <!--<span>{cat.description?cat.description:cat.bool}</span>-->
-              <span>{cat.description||cat.bool}</span>
+              {#if cat.title === 'Regulated Actors'}
+                <span>{String(cat.description).split(',').join(', ')||cat.bool}</span>
+              {/if}
+              {#if cat.title !== 'Regulated Actors'}
+                <span>{cat.description||cat.bool}</span>
+              {/if}
             </div>
             {/if}
           {/each}
