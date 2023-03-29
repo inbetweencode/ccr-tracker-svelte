@@ -27,7 +27,7 @@
     if (e.touches && e.touches.length > 1) return;
     e.preventDefault();
     e.stopPropagation();
-    selectedId.set(4);
+    selectedId.set(id); //4
     selectSource.set('table');
   }
   /*
