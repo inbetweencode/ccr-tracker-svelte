@@ -118,11 +118,13 @@
   </thead>
   <tbody>
   {#each $tabledata as row}
-      <tr
-        on:touchstart={(e) => handleRowClick(e, row.id)}
-        on:click={(e) => handleRowClick(e, row.id)}
-      >
-        <td>{row.country === 'United States of America' ? 'United States' : row.country}</td>
+      <tr>
+        <td>
+          <span class='link'
+            on:touchstart={(e) => handleRowClick(e, row.id)}
+            on:click={(e) => handleRowClick(e, row.id)}
+          >{row.country === 'United States of America' ? 'United States' : row.country}</span>
+        </td>
         <td>{row.status}</td>
         <td>
           {#if row.categories.taxation.bool === 'Yes'}<span class="check"><Icon data={check} /></span>{/if}
@@ -151,10 +153,13 @@
 
     .table-wrapper {
         box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.15);
-        margin: 30px;
-        height: 50vw;
-        max-height: 800px;
+        /*margin: 30px;*/
+        /*height: 50vw;*/
+        /*max-height: 800px;*/
         overflow-y: scroll;
+        margin: 0;
+        height: 167vw;
+        max-height: 800px;
     }
     table {
         width: 100%;
@@ -197,8 +202,7 @@
         border-right: 0;
     }
 
-    tbody tr:hover {
-        background-color: rgba(234, 236, 241, 0.5);
+    tbody td span.link {
         cursor: pointer;
     }
 

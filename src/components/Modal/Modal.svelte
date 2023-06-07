@@ -176,14 +176,19 @@
     align-items: flex-start;
     justify-content: center;
     width: 100vw;
-    height: 100vh;
+    height: 100%;
     font-family: var(--primFont);
   }
 
   .modal.expanded {
-      position: fixed;
-      top: 0;
-      align-items: center;
+      /*position: fixed;*/
+      /*top: 0;*/
+      /*align-items: center;*/
+  }
+
+  .modal.table {
+      top: unset;
+      bottom: 0;
   }
 
   .modal-outer {
@@ -193,9 +198,9 @@
     margin: 0;
     padding: 0;
     opacity: 0.7;
+    background-color: #000;
   }
   .modal.expanded .modal-outer {
-    background-color: #000;
   }
 
   .modal-inner {
@@ -203,7 +208,7 @@
     top: 2.5%;
     width: 90%;
     /* height: 100%; */
-    height: 90%;
+    height: 167vw;
     /* padding-bottom: 150px;*/
     padding-bottom: 30px;
     background-color: var(--background);
@@ -213,15 +218,18 @@
   }
 
   .modal.expanded .modal-inner {
-      top: 0;
+      /*top: 0;*/
   }
 
   .modal.table .modal-inner {
       top: unset;
       position: absolute;
+      /*bottom: 30px;*/
+      /*right: 30px;*/
+      /*width: calc( (100% - 60px) * 0.8383);*/
+      width: 90%;
+      height: 150vw;
       bottom: 30px;
-      right: 30px;
-      width: calc( (100% - 60px) * 0.8383);
   }
 
   @media (min-width: 980px) {
@@ -333,13 +341,15 @@
   .body {
     display: flex;
     flex-direction: column;
+    overflow-y: auto;
+    height: calc(100% - 51px);
   }
 
   @media (min-width: 980px) {
     .body {
       flex-direction: row;
-      overflow-y: auto;
-      height: calc(100% - 51px);
+      /*overflow-y: auto;*/
+      /*height: calc(100% - 51px);*/
     }
   }
 
