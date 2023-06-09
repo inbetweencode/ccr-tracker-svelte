@@ -24,6 +24,7 @@
   let width = 0;
   let height = 0;
   let urlParams;
+  let displayMode = false;
 
   function handleModalCategoryClick(e) {
     const { detail: { category, name} } = e;
@@ -51,6 +52,8 @@
   $: if ($data.length) {
     applyParams(parseUrl(urlParams))
     applySelected(urlParams);
+    displayMode = urlParams.get('mode');
+    console.log(displayMode);
     urlParams = null;
   }
 </script>
@@ -63,31 +66,34 @@
 >
   <!--<FilterBarTop />-->
   <!--<FilterBarBottom />-->
-  <Map />
-  <Footer />
-  <!--<Spotlight />-->
-  {#if $paragraphs[0]}
-  <Paragraph
-    heading={$paragraphs.find(d => d.name === 'below_map').heading}
-    text={$paragraphs.find(d => d.name === 'below_map').text}
-  />
-  {/if}
 
-  {#if ($selectedDatum)}
-    <Modal
-      datum={$selectedDatum}
-      on:categoryclick={handleModalCategoryClick}
-      on:close={() => $selectedId = null}
-      source={$selectSource}
-    />
+  {#if (displayMode === null || typeof displayMode === 'undefined')}
+    <Map />
+    <Footer />
+    <!--<Spotlight />-->
   {/if}
+    {#if $paragraphs[0]}
+    <Paragraph
+      heading={$paragraphs.find(d => d.name === 'below_map').heading}
+      text={$paragraphs.find(d => d.name === 'below_map').text}
+    />
+    {/if}
+
+    {#if ($selectedDatum)}
+      <Modal
+        datum={$selectedDatum}
+        on:categoryclick={handleModalCategoryClick}
+        on:close={() => $selectedId = null}
+        source={$selectSource}
+      />
+    {/if}
   {#if ($tooltip)}
     <Tooltip
       tooltip={$tooltip}
       maxWidth={width}
     />
   {/if}
-  <Table />
+  <Table tableModal={(displayMode === null || typeof displayMode === 'undefined')} />
 </div>
 
 <style>

@@ -19,6 +19,7 @@
   import { getCoords } from '../../utils/misc';
   import InfoButton from '../TableSelect/InfoButton.svelte';
 
+  export let tableModal;
 
   onMount(() => {
   });
@@ -120,10 +121,14 @@
   {#each $tabledata as row}
       <tr>
         <td>
+          {#if tableModal}
           <span class='link'
             on:touchstart={(e) => handleRowClick(e, row.id)}
             on:click={(e) => handleRowClick(e, row.id)}
           >{row.country === 'United States of America' ? 'United States' : row.country}</span>
+          {:else}
+          <span class=''>{row.country === 'United States of America' ? 'United States' : row.country}</span>
+          {/if}
         </td>
         <td>{row.status}</td>
         <td>
