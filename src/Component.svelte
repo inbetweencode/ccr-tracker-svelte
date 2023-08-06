@@ -52,8 +52,10 @@
   $: if ($data.length) {
     applyParams(parseUrl(urlParams))
     applySelected(urlParams);
-    displayMode = urlParams.get('mode');
-    console.log(displayMode);
+    if (urlParams !== null) {
+      displayMode = urlParams.get('mode');
+      console.log(displayMode);
+    }
     urlParams = null;
   }
 </script>
