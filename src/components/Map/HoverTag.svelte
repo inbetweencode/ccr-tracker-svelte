@@ -141,7 +141,7 @@
     <path
       class="tag-connector-path"
       d={tagConnectorPath(tag.x1, tag.y1, tag.x2, tag.y2)}
-      stroke={data.categories.new_status.color}
+      stroke='F00'
       transition:draw={{duration: pathGrowDuration}}
     />
     <g
@@ -149,7 +149,7 @@
       class:selectable={tag.filterable}
       in:fade={{delay: pathGrowDuration}}
       out:fade={{delay: 0}}
-      style="--stroke: {data.categories.new_status.color};"
+      style="--stroke: 'F00';"
     >
       <path
         class="tag-label-path background"
@@ -160,7 +160,7 @@
         class="tag-label-path"
         class:country={tag.category === 'name'}
         d={tagLabelPath(tag.x2, tag.y2, tag.x3, tag.y3, tag.x4, tag.y4, tag.x5, tag.y5, tag.x6, tag.y6, tag.direction * cornerRadius)}
-        fill={tag.category === 'name' ? data.categories.new_status.color : 'var(--secWhite)'}
+        fill={tag.category === 'name' ? 'F00' : 'var(--secWhite)'}
         on:click={() => handleTagLabelClick(tag)}
       />
       <g
@@ -173,7 +173,7 @@
             text-anchor="{tag.direction === 1 ? 'start' : 'end'}"
             dx={labelArrowWidth * tag.direction}
             dy={tag.textCategoryYOffset}
-            fill={tag.category === 'name' ? 'var(--darkgray)' : data.categories.new_status.color}
+            fill={tag.category === 'name' ? 'var(--darkgray)' : 'F00'}
           >
             {tag.title}
           </text>
@@ -192,7 +192,7 @@
 </g>
 <Centroid
   dataCountry={data}
-  color={data.categories.new_status.color}
+  color='F00'
   isReactive={false}
   inverted={data.status === 'region'}
 />

@@ -51,6 +51,7 @@ export const dataCountries = derived(
 
   export const dataClusters = derived([clusters, dataCountries, colorCategory], ([$clusters, $dataCountries, $colorCategory]) => {
     return $clusters.map(cluster => {
+      /*console.log(cluster);*/
       const countries = $dataCountries.filter(d => cluster.countries.includes(d.name.name));
       return {
         ...cluster,

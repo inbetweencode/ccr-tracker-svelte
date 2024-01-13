@@ -61,10 +61,10 @@ const features = readable([], async (set) => {
         name,
         coordinates: [+lon, +lat],
       },
-      isClusterMember: false /*clusterSetup
+      isClusterMember: clusterSetup
         .map((cluster) => cluster.countries)
         .flat()
-        .includes(d.properties.name)*/,
+        .includes(d.properties.name),
     };
   });
 

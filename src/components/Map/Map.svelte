@@ -198,6 +198,7 @@
     --position="absolute"
     --z-index="0"
   >
+    <!--{typeof (console.log($projectedData)) === 'undefined' ? '' : ''}-->
     {#each $projectedData as country}
       <Country
         path={country.path}
@@ -221,8 +222,8 @@
           dataCountry={country}
           radius={centroidRadius}
           color={country.status == 'Yes' ? '#0F0' : ( country.status == 'No' ? '#F00' : '#B72951') }
-          opacity={ 1 }
-          isReactive={ true }
+          opacity={country.show ? 1 : 1}
+          isReactive={country.show ? 1 : 1}
           inverted={country.status === 'region'}
           offset={$mapTransform.k > $initialTransform.k * clusterZoom ? [0, 0] : country.offset}
           on:mouseenter={(e) => handleCentroidMouseEnter(e, country.id)}
@@ -232,22 +233,24 @@
           hovered={($hoveredIds.includes(country.id))}
         />
     {/each}
-    
-    <!--{#each $dataClusters as cluster (cluster.id)}
+
+    <!--{typeof (console.log($dataClusters)) === 'undefined' ? '' : ''}-->
+    {#each $dataClusters as cluster (cluster.id)}
       {#if ($mapTransform.k < $initialTransform.k * clusterZoom)}
         <Centroid
           dataCountry={cluster}
           radius={centroidRadius}
-          color={cluster.color}
-          opacity={cluster.show ? 1 : 0}
-          isReactive={cluster.show}
+          color='#B72951'
+          opacity={cluster.show ? 1 : 1}
+          isReactive={cluster.show ? true : true}
           isCluster
           on:mouseenter={(e) => handleCentroidClusterMouseEnter(e, cluster.id)}
           on:mouseleave={(e) => handleCentroidClusterMouseLeave(e, cluster.id)}
           on:click={() => handleClusterClick(cluster.centroid, $initialTransform.k * (clusterZoom + 0.1), $mapTransform, $initialTransform, $mapWidth, $mapHeight)}
+          hovered={($hoveredClusterIds.includes(cluster.id))}
         />
       {/if}
-    {/each}-->
+    {/each}
 
     
   </svg>

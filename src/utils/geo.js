@@ -37,9 +37,9 @@ export const useCapitalCountries = [
 ];
 
 export const clusterSetup = [
-  {
+  /*{
     id: 0,
-    name: 'Eastern Carribean (Launched)',
+    name: 'Eastern Carribean',
     countries: [
       'Saint Kitts and Nevis',
       'Antigua and Barbuda',
@@ -60,7 +60,7 @@ export const clusterSetup = [
       'Palestine'
     ],
     centroid: [35, 33]
-  },
+  },*/
   {
     id: 2,
     name: 'Europe',
@@ -86,7 +86,9 @@ export const clusterSetup = [
       'Estonia', 
       'Latvia', 
       'Lithuania',
-      'Euro Area'
+      'Euro Area',
+      'United Kingdom',
+      'Denmark'
     ],
     centroid: [3.0, 46.0]
   }

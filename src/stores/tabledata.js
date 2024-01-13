@@ -15,8 +15,8 @@ export const tabledata = derived(
    ]) => {
 
     //console.log('output data');
-    console.log($data);
-    console.log($projectedData);
+    //console.log($data);
+    //console.log($projectedData);
 
     return $data.sort((a, b) => a.country > b.country ).map((d, i) => {
       return {

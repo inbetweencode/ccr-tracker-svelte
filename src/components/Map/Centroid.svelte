@@ -20,7 +20,7 @@
   let deactivated = false;
 
   $: deactivated = offset[0] !== 0 && offset[1] !== 0;
-  $: tRadius.set(radius * (isCluster || deactivated ? 0.8 : 1));
+  $: tRadius.set(radius * (isCluster || deactivated ? 1.25 : 1));
   $: tOffset.set(offset, { duration: deactivated ? 0 : 200});
 
 
@@ -28,7 +28,7 @@
 
 <g
   class="centroid"
-  class:reactive={isReactive && !deactivated}
+  class:reactive={isReactive}
   class:deactivated
   class:inverted
   transform="translate({dataCountry.centroid[0] + $tOffset[0]} {dataCountry.centroid[1] + $tOffset[1]})"
@@ -51,7 +51,7 @@
     class="foreground"
     cx="0"
     cy="0"
-    r={$tRadius / 1.5}
+    r={$tRadius / (isCluster ? 2 : 1.5)}
     stroke-width={$tRadius / 7}
   />
 
@@ -69,7 +69,7 @@
       r={$tRadius / 1.2}
       stroke-width={$tRadius / 15}
     />
-    <circle
+    <!--<circle
       class="foreground"
       cx="0"
       cy="0"
@@ -82,7 +82,7 @@
       cy="0"
       r={$tRadius / 2.5}
       stroke-width={$tRadius / 15}
-    />
+    />-->
   {/if}
   {#if (inverted)}
     <circle
