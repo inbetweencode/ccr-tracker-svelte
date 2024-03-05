@@ -98,7 +98,11 @@ export const loadCapitals = async (dataPath) => {
 
 let dataHolder = [];
 
-Airtable.configure({ apiKey: 'keyiBpVib7jEKXnEH' });
+//Airtable.configure({ apiKey: 'keyiBpVib7jEKXnEH' });
+Airtable.configure({
+  endpointUrl: 'https://api.airtable.com',
+  apiKey: 'patRjIoyO5Pin31nV.fe04c3c1b50fbd3e685f172a163855c312291b75b4f01477b7c854a5377044d4'
+});
 
 let base = new Airtable().base('app8reLMcbkJAuCOG');
 
