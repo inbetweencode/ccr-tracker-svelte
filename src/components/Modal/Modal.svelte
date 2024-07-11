@@ -123,6 +123,25 @@
             </div>
             {/if}
           {/each}
+
+          {#if (datum.source_urls.length)}
+            <div class="category">
+            <h4>Sources</h4>
+            <div class="sources">
+              <!--{#if (datum.sources.central_bank_name)}
+                <a href={datum.sources.central_bank_url} target="_blank">{datum.sources.central_bank_name}</a>
+              {/if}-->
+              <!--<p>{datum.timeline}</p>-->
+              <ul class="media-sources">
+                {#each datum.source_urls as url, i}
+                  <li><a href={url} target="_blank">{datum.source_titles[i]}</a><!-- [{extractHostname(url)}]--></li>
+                {/each}
+              </ul>
+            </div>
+            </div>
+          {/if}
+
+
         </div>
       </div>
       {/if}
@@ -143,20 +162,6 @@
             </ul>
           {/if}-->
         </div>
-        {#if (datum.source_urls.length)}
-        <h4>Sources</h4>
-        <div class="sources">
-          <!--{#if (datum.sources.central_bank_name)}
-            <a href={datum.sources.central_bank_url} target="_blank">{datum.sources.central_bank_name}</a>
-          {/if}-->
-          <!--<p>{datum.timeline}</p>-->
-            <ul class="media-sources">
-              {#each datum.source_urls as url, i}
-                <li><a href={url} target="_blank">{datum.source_titles[i]}</a><!-- [{extractHostname(url)}]--></li>
-              {/each}
-            </ul>
-        </div>
-        {/if}
         <h4>Share</h4>
         <div class="share-panel">
           <Share />

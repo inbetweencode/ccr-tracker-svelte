@@ -11,7 +11,7 @@ import {
 import { selectedId } from './selection';
 import { areAllSelected } from "../utils/logic";
 
-export const baseUrl = 'https://www.atlanticcouncil.org/cbdctracker';
+export const baseUrl = 'https://www.atlanticcouncil.org/programs/geoeconomics-center/cryptoregulationtracker';
 // export const baseUrl = 'https://geoecon.github.io/cbdc-tracker';
 // export const baseUrl = 'http://localhost:5000';
 
