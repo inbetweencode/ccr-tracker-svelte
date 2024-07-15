@@ -85,7 +85,7 @@ base('Table data').select().eachPage(function page(records, fetchNextPage) {
 
 
 export const rawTableData = readable([], async (set) => {
-  set(await loadData('tbl4sDxJzk0eAKEaJ'));
+  set(await loadData('tblnQj0DdiJVo2MPh'));
 });
 
 export const data = derived(
