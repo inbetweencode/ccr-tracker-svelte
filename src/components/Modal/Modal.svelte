@@ -171,7 +171,7 @@
               !(cat.description === '' && cat.bool === '') &&
               (cat.title == 'Taxation' || cat.title == 'AML/CFT' || cat.title == 'Consumer Protection' || cat.title == 'Licensing')
               }
-                <li><a on:click={handleExpand} target="_blank">{cat.title}</a></li>
+                <li><span on:click={handleExpand} class='highlight'>{cat.title}</span></li>
               {/if}
             {/each}
           </ul>
@@ -409,6 +409,14 @@
 
   .category.highlight {
       color: #B72951;
+  }
+  span.highlight {
+      color: #B72951;
+      border-bottom: 1px #B72951 solid;
+      cursor: default;
+  }
+  span.highlight:hover {
+      border-bottom-style: dashed;
   }
   .category h3 {
     font-size: 1.5rem;
