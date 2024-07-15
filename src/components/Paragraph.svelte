@@ -17,7 +17,6 @@
   h3 {
       margin-bottom: 30px;
       font-size: 2.25rem;
-      text-align: center;
   }
   p {
       font-size: 1.25rem;

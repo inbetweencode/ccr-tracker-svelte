@@ -162,6 +162,21 @@
             </ul>
           {/if}-->
         </div>
+        {#if (!expanded)}
+        <h4>Regulatory categories <span>(click to see more)</span></h4>
+        <div class='sources'>
+          <ul class="media-sources">
+            {#each categories as cat (cat.title)}
+              {#if !(cat.description === '' && cat.bool === 'null') &&
+              !(cat.description === '' && cat.bool === '') &&
+              (cat.title == 'Taxation' || cat.title == 'AML/CFT' || cat.title == 'Consumer Protection' || cat.title == 'Licensing')
+              }
+                <li><a on:click={handleExpand} target="_blank">{cat.title}</a></li>
+              {/if}
+            {/each}
+          </ul>
+        </div>
+        {/if}
         <h4>Share</h4>
         <div class="share-panel">
           <Share />
@@ -408,7 +423,10 @@
     font-size: 1.2rem;
     /*opacity: 0.8;*/
   }
-
+  h4 span {
+      font-weight: normal;
+      font-size: .8em;
+  }
   .chip {
     margin: 0.3rem 0;
     padding: 0.2rem 0.4rem;
@@ -466,6 +484,7 @@
     flex-direction: column;
     flex-wrap: wrap;
     list-style-type: none;
+    margin-bottom: 1em;
   }
 
   @media (min-width: 980px) {

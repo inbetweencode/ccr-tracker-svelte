@@ -88,7 +88,14 @@ export const clusterSetup = [
       'Lithuania',
       'Euro Area',
       'United Kingdom',
-      'Denmark'
+      'Denmark',
+      'Czech Republic',
+      'Croatia',
+      'Poland',
+      'Hungary',
+      'Romania',
+      'Belarus',
+      'Ukraine'
     ],
     centroid: [3.0, 46.0]
   }
