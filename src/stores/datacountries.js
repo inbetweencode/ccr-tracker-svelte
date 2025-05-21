@@ -55,6 +55,7 @@ export const dataCountries = derived(
       const countries = $dataCountries.filter(d => cluster.countries.includes(d.name.name));
       return {
         ...cluster,
+        /*countries,*/
         show: countries.some(d => d.show),
         color: getColorFromCountries(countries, $colorCategory)
       };

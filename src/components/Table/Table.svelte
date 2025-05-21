@@ -164,7 +164,7 @@
         overflow-y: scroll;
         margin: 0;
         height: 167vw;
-        max-height: 800px;
+        max-height: 499px;
     }
     table {
         width: 100%;

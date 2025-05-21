@@ -3,7 +3,7 @@
   import { zoom as d3zoom, select, zoomIdentity } from 'd3';
 
   import { mapWidth, mapHeight, initialTransform, mapTransform, projectedData } from '../../stores/map';
-  import { data } from '../../stores/data2';
+  import { data, paragraphs } from '../../stores/data2';
   import { dataCountries, dataClusters } from '../../stores/datacountries';
   import { colorCategory } from '../../stores/colorcategory';
   import { hoveredIds, selectedDatum, selectedId, selectSource } from '../../stores/selection';
@@ -236,7 +236,7 @@
 
     <!--{typeof (console.log($dataClusters)) === 'undefined' ? '' : ''}-->
     {#each $dataClusters as cluster (cluster.id)}
-      {#if ($mapTransform.k < $initialTransform.k * clusterZoom)}
+      {#if (($mapTransform.k < $initialTransform.k * clusterZoom)) } <!-- && cluster.countries.some(c => c.show) -->
         <Centroid
           dataCountry={cluster}
           radius={centroidRadius}

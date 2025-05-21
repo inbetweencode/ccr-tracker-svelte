@@ -71,7 +71,9 @@
 
   {#if (displayMode === null || typeof displayMode === 'undefined')}
     <Map />
-    <Footer />
+    <Footer
+      text={$paragraphs.find(d => d.name === 'last_updated')?.text}
+    />
     <!--<Spotlight />-->
   {/if}
     {#if $paragraphs[0]}
